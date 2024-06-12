@@ -9,15 +9,17 @@ let getHumanChoice = () => {
   let choice = prompt("Enter rock, paper, scissors (or 1,2,3)");
 
   if (!isNaN(choice) && choice >= 0 && choice <= 2) {
-    choice = choices[choice];
+    return choices[choice];
   } else {
     choice = choice.toLowerCase();
+    if (choices.includes(choice)) {
+      return choice;
+    }
   }
-  if (choice !== "rock" && choice !== "paper" && choice !== "scissors") {
-    alert("Invalid choice. Please enter rock, paper, scissors (or 1,2,3)");
-    return getHumanChoice();
-  }
-  return choice;
+  alert(
+    "Invalid choice. Please enter rock, paper, or scissors (or 0 for rock, 1 for paper, 2 for scissors)"
+  );
+  return getHumanChoice();
 };
 
 let playRound = (humanChoice, computerChoice) => {

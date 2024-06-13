@@ -5,27 +5,10 @@ const choices = ["rock", "paper", "scissors"];
 
 let getComputerChoice = () => choices[Math.floor(Math.random() * 3)];
 
-let getHumanChoice = () => {
-  let choice = prompt("Enter rock, paper, scissors (or 1,2,3)");
-
-  if (!isNaN(choice) && choice >= 0 && choice <= 2) {
-    return choices[choice];
-  } else {
-    choice = choice.toLowerCase();
-    if (choices.includes(choice)) {
-      return choice;
-    }
-  }
-  alert(
-    "Invalid choice. Please enter rock, paper, or scissors (or 0 for rock, 1 for paper, 2 for scissors)"
-  );
-  return getHumanChoice();
-};
-
 let playRound = (humanChoice, computerChoice) => {
   console.log(`Human plays: ${humanChoice}\nComputer plays: ${computerChoice}`);
   if (humanChoice === computerChoice) {
-    console.log("It's a tie!");
+    displayWinner.textContent = "It's a tie!";
     return;
   }
   const winningConditions = {
@@ -36,25 +19,22 @@ let playRound = (humanChoice, computerChoice) => {
 
   if (computerChoice === winningConditions[humanChoice]) {
     humanScore += 5;
-    console.log("Human wins this round!");
+    displayWinner.textContent = "User wins!";
   } else {
     computerScore += 5;
-    console.log("Computer wins this round!");
+    displayWinner.textContent = "Computer wins!";
   }
 };
 
-let playGame = () => {
-  for (i = 0; i < 5; i++) {
-    let humanChoice = getHumanChoice();
-    let computerChoice = getComputerChoice();
-    playRound(humanChoice, computerChoice);
-    console.log(`Human score: ${humanScore}\nComputer score: ${computerScore}`);
-  }
-  if (computerScore > humanScore) {
-    console.log("Computer wins overall!!!");
-  } else {
-    console.log("Human wins overall!!!");
-  }
+let playGame = (humanChoice) => {
+  let computerChoice = getComputerChoice();
+  displayMoves.textContent = `Computer: ${computerChoice}`;
+  playRound(humanChoice, computerChoice);
+  console.log(`Human score: ${humanScore}\nComputer score: ${computerScore}`);
 };
 
-playGame();
+let winnerContainer = document.querySelector(".results");
+let displayWinner = document.createElement("p");
+let displayMoves = document.createElement("p");
+winnerContainer.appendChild(displayMoves);
+winnerContainer.appendChild(displayWinner);
